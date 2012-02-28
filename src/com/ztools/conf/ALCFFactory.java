@@ -1,0 +1,124 @@
+/**
+ * 
+ */
+package com.ztools.conf;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Properties;
+
+/**
+ * @author Zhong Lizhi
+ */
+public class ALCFFactory {
+
+	private static HashMap<String, AutoConfigurer> producesMap = new HashMap<String, AutoConfigurer>();
+
+	public static AutoConfigurer createAutoConfiger(String filePath)
+			throws FileNotFoundException, IOException {
+		AutoConfigurer autoConfiger = producesMap.get(filePath);
+		if (null == autoConfiger) {
+			autoConfiger = new AutoConfigurer(filePath);
+			producesMap.put(filePath, autoConfiger);
+		}
+		return autoConfiger;
+	}
+
+	public static void deleteAutoConfiger(String filePath) {
+		producesMap.remove(filePath);
+	}
+
+	public static void deleteAutoConfiger(AutoConfigurer autoConfiger) {
+		deleteAutoConfiger(autoConfiger.getPath());
+	}
+	
+    /**
+     * @param filePath
+     * @param parameterName
+     * @param parameterValue
+     */
+    public static void writeProperties(String filePath,String parameterName,String parameterValue) {
+    	deleteAutoConfiger(filePath);
+        Properties prop = new Properties();
+        InputStream fis = null;
+        OutputStream fos = null;
+        try {
+          fis = new FileInputStream(filePath);
+               //从输入流中读取属性列表（键和元素对）
+               prop.load(fis);
+               //调用 Hashtable 的方法 put。使用 getProperty 方法提供并行性。
+               //强制要求为属性的键和值使用字符串。返回值是 Hashtable 调用 put 的结果。
+                fos = new FileOutputStream(filePath);
+               prop.setProperty(parameterName, parameterValue);
+               //以适合使用 load 方法加载到 Properties 表中的格式，
+               //将此 Properties 表中的属性列表（键和元素对）写入输出流
+               prop.store(fos, "Update '" + parameterName + "' value");
+               
+           } catch (IOException e) {
+            System.err.println("Visit "+filePath+" for updating "+parameterName+" value error");
+           }finally{
+        	   try {
+				if(fos!=null){
+					   fos.close();
+				   }
+				   if(fis!=null){
+					   fis.close();
+				   }
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+           }
+       }
+    
+
+	public static void main(String[] args) {
+		AutoConfigurer autoConfiger = null;
+			try {
+				autoConfiger = ALCFFactory
+						.createAutoConfiger("path/filename");
+			} catch (FileNotFoundException e2) {
+				//没找到文件
+				e2.printStackTrace();
+				System.exit(1);
+			} catch (IOException e2) {
+				// 流异常
+				System.exit(2);
+				e2.printStackTrace();
+			}
+			autoConfiger.getValue("key");
+
+		for (int i = 0; i < 10; i++) {
+			new Thread() {
+				public void run() {
+					while (true) {
+						try {
+							System.out.println(Thread.currentThread().getName()
+									+ " "
+									+ ALCFFactory.createAutoConfiger(
+											"regexp.properties").getValue(
+											"huxiTitle"));
+						} catch (FileNotFoundException e1) {
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						try {
+							Thread.sleep(300);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+							// Out.print(
+							// e);
+						}
+					}
+				}
+			}.start();
+		}
+	}
+
+}

@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+X-Compile-Source-JDK: 1.6
+X-Compile-Target-JDK: 1.6
+Main-Class: com.ztools.rmi.ConfigService
+
