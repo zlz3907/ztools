@@ -38,6 +38,8 @@ public class ZHandler extends AbsHandler {
 
     private Object bean;
 
+    private String defaultClassName = null;
+
     private String charset;
 
     private boolean isRoot = true;
@@ -154,6 +156,7 @@ public class ZHandler extends AbsHandler {
             rootName = qName;
             isRoot = false;
             iXmlProcess = XMLProcessFactory.getXmlProcess(rootName);
+            defaultClassName = attributes.getValue("class");
         }
         // is root
         if (this.rootName.equals(qName)) {
@@ -171,6 +174,10 @@ public class ZHandler extends AbsHandler {
                 className = Object.class.getName();// this.bean.getClass().getName();
                                                    // //
                                                    // this.bean.getBeanClass().getName();
+            }
+
+            if (null == className) {
+                className = defaultClassName;
             }
             Class<?> c = Class.forName(className);
             currObject = parseValue("0", c);
@@ -314,7 +321,7 @@ public class ZHandler extends AbsHandler {
                 Array.set(arr, length, curr);
                 this.tempItemObject.set(tempItemIndex - 1, arr);
             } else if (obj instanceof Map<?, ?>) {
-                Map<Object,Object> map = (Map<Object,Object>)obj;
+                Map<Object, Object> map = (Map<Object, Object>) obj;
                 map.put(qName, curr);
             } else if (obj instanceof Collection<?>) {
                 Collection<Object> c = (Collection<Object>) obj;
