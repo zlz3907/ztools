@@ -2,13 +2,6 @@ package com.ztools.rmi.bean;
 
 import java.io.Serializable;
 
-/**
- * @author zouren
- * @time 2010-8-25上午10:42:07 
- * <P>
- * 注册RMI 配置文件对应的 BEAN
- * </P>
- */
 public class RmiConfigBean implements Serializable{
 
 	/**

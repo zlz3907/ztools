@@ -25,7 +25,7 @@ public class XMLReader implements Serializable {
 
             AbsHandler handler = xmlBean.getHandler();
             if (null == handler) {
-                XMLHandler mr = new XMLHandler(xmlBean);
+//                XMLHandler mr = new XMLHandler(xmlBean);
 //                handler = mr;//new ZHandler();
                 handler = new ZHandler();
             }
@@ -37,6 +37,8 @@ public class XMLReader implements Serializable {
                     if (handler.getXmlObject() instanceof List<?>) {
                         xmlBean.setItemList((List<?>)handler.getXmlObject());
                     }
+                } else {
+                    xmlBean.setBean(xmlBean.getItemList());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

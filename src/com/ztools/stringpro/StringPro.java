@@ -29,13 +29,6 @@ import java.util.regex.Pattern;
  */
 public class StringPro {
 
-    /**
-     * ½«URL´®ÀïµÄÖĞÎÄ×Ö·û×ª»»Îª±àÂëĞÎÊ½·µ»Ø£¬ÔÚ×ª»»¹ı³ÌÖĞ³öÏÖÈÎºÎÒì³£½«»á·µ»ØÔ­URL´®
-     * 
-     * @param url
-     *            ĞèÒª´¦ÀíµÄURL´®
-     * @return ¶ÔÖĞÎÄ½øĞĞ±àÂëºóµÄURL´®
-     */
     public static String getNormativeUrl(String url) {
 
         if (null == url)
@@ -64,12 +57,6 @@ public class StringPro {
         }
     }
 
-    /**
-     * ÅĞ¶ÏÖ¸¶¨×Ö·û´®ÊÇ·ñÓÉÊı×Ö×é³É
-     * 
-     * @param number
-     * @return
-     */
     public static boolean isNumber(String number) {
         char[] numCs = number.toCharArray();
         for (int i = numCs.length - 1; i >= 0; i--) {
@@ -79,12 +66,6 @@ public class StringPro {
         return true;
     }
 
-    /**
-     * ´Ó×Ö·û´®ÖĞÌáÈ¡°¢À­²®Êı×Ö
-     * 
-     * @param str
-     * @return
-     */
     public static String toExtractNumberFromString(String str) {
         if (null == str)
             return "";
@@ -97,12 +78,6 @@ public class StringPro {
         return sbd.toString();
     }
 
-    /**
-     * ´Ó×Ö·û´®ÖĞÌáÈ¡ÖĞÎÄ
-     * 
-     * @param str
-     * @return
-     */
     public static String toExtractChineseFromString(String str) {
         if (null == str)
             return "";
@@ -115,12 +90,6 @@ public class StringPro {
         return sbd.toString();
     }
 
-    /**
-     * ÅĞ¶ÏÒ»¸ö×Ö·û´®ÊÇ·ñÎª16½øÖÆµÄÊı
-     * 
-     * @param number
-     * @return
-     */
     public static boolean isHexDigit(String number) {
         char[] numCs = number.toCharArray();
         for (int i = numCs.length - 1; i >= 0; i--) {
@@ -131,12 +100,6 @@ public class StringPro {
         return true;
     }
 
-    /**
-     * ½«HTML´úÂëÖĞÀàËÆ"&#NNNNN;"ĞÎÊ½µÄÊı×Ö×ª»»ÎªÖĞÎÄ
-     * 
-     * @param numberString
-     * @return
-     */
     public static String formatNumberString(String numberString) {
         // System.out.println("in.. " + numberString);
         char[] numCs = numberString.toCharArray();
@@ -172,14 +135,6 @@ public class StringPro {
         return sbd.toString();
     }
 
-    /**
-     * ´¦ÀíHTML±êÇ©ÀïµÄÎÄ±¾
-     * 
-     * @param str
-     * @param isKeepLetter
-     *            ÊÇ·ñ±£ÁôÓ¢ÎÄ×ÖÄ¸
-     * @return
-     */
     public static String getKeepInnerText(String str, boolean isKeepLetter) {
         char[] strCs = formatNumberString(str).toCharArray();
         int strLenghtI = strCs.length;
@@ -197,27 +152,14 @@ public class StringPro {
         return sbd.toString();
     }
 
-    /**
-     * ÌŞ³ı×Ö·û´®ÀïµÄHTML´úÂë
-     * 
-     * @param str
-     *            ÒªÌŞ³ıHTMLµÄ×Ö·û´®
-     * @return ÌŞ³ıHTMLºóµÄ×Ö·û´®
-     */
     public static String keepHtml(String str) {
         // |[^\\u4e00-\\u9fa5]{18,}
         if (null != str)
-            return str.replaceAll("<[^>]*>|(&[#a-z0-9]{1,6};)|[\t\n\r ¡¡]", "");
+            return str.replaceAll("<[^>]*>|(&[#a-z0-9]{1,6};)|[\t\n\r ï¿½ï¿½]", "");
         return "";
 
     }
 
-    /**
-     * ´´½¨ÏûÏ¢ÕªÒª
-     * 
-     * @param inputString
-     * @return
-     */
     public static String createDigest(String inputString) {
         char[] hexDigits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
                 'a', 'b', 'c', 'd', 'e', 'f' };
@@ -384,15 +326,6 @@ public class StringPro {
         return rMap;
     }
 
-    /**
-     * ÅĞ¶ÏÒ»¸ö×Ö·û´®ÊÇ·ñÄÜ±»Ö¸¶¨µÄ×Ö·û¼¯ÕıÈ·±àÂë
-     * 
-     * @param str
-     *            ĞèÒªÑéÖ¤µÄ×Ö·û´®
-     * @param charsetName
-     *            ×Ö·û¼¯Ãû³Æ
-     * @return true¿ÉÒÔ±»±àÂë£¬false²»ÄÜ±»±àÂë
-     */
     public static boolean isSupportedCharset(String str, String charsetName) {
         boolean isLegalArgs = str != null && null != charsetName ? !""
                 .equals(charsetName) : false;
@@ -410,14 +343,6 @@ public class StringPro {
         return false;
     }
 
-    /**
-     * Îª½«ÒªÔÚÖ÷´®ÖĞ²éÕÒµÄÄ£°å´®¼¯ºÏ½¨Á¢×Ö·ûË÷Òı
-     * 
-     * @param patterns
-     *            Ä£°å´®¼¯ºÏ
-     * @return Ê÷ĞÎ½á¹¹µÄË÷Òı
-     * @deprecated
-     */
     @SuppressWarnings("unchecked")
     public static Map<Character, Object> createIndexOfPatterns(
             Set<String> patterns) {
@@ -448,18 +373,6 @@ public class StringPro {
         return stairIndex;
     }
 
-    /**
-     * ²éÕÒÒ»¸öÄ£°å´®¼¯ºÏÔÚÖ÷´®ÖĞ·Ö±ğ³öÏÖµÄ´ÎÊı
-     * 
-     * @param text
-     *            Ö÷´®
-     * @param patternsMap
-     *            ÓÃÀ´¸¨Öú²éÕÒÄ£°å´®¼¯ºÏµÄË÷Òı£¬¸ÃË÷Òı¿ÉÒÔÍ¨¹ıcreateIndexOfPatterns()µÃµ½
-     * @param keys
-     *            Ä£°å´®¼¯ºÏ
-     * @return ¸÷Ä£°å´®ÔÚÖ÷´®ÖĞ³öÏÖ´ÎÊıµÄÓ³Éä¹ØÏµ£¬¼üÎªÄ£°å´®£¬ÖµÎª¸Ã¼üÔÚÖ÷´®ÖĞ³öÏÖµÄ´ÎÊı
-     * @deprecated
-     */
     @SuppressWarnings("unchecked")
     public static Map<String, Integer> matchesPatterns(String text,
             Map<Character, Object> patternsMap, Set<String> keys) {
@@ -511,14 +424,6 @@ public class StringPro {
         return rMap;
     }
 
-    /**
-     * ½«Ö¸¶¨×Ö·û´®ÖĞËùÓĞÓëÕıÔò±í´ïÊ½ÏàÆ¥µÄÏîÒÔ¶¹ºÅ¸î£¬²¢·µ»Ø¡£
-     * 
-     * @param str
-     * @param regex
-     *            ÕıÔò
-     * @return ·µ»ØËùÓĞÆ¥Åäµ½µÄ×Ö·û´®£¬ÒÔ¶¹ºÅ·Ö¸î
-     */
     public static String getMatcheGroupString(String str, String regex) {
         Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE
                 | Pattern.DOTALL | Pattern.UNICODE_CASE);
@@ -553,12 +458,6 @@ public class StringPro {
         return m.find();
     }
 
-    /**
-     * ×ª»»È«½Ç×Ö·ûÎª°ë×Ö·û
-     * 
-     * @param str
-     * @return
-     */
     public static String formatSBCCaseToDBCCase(String str) {
         String ret = str;
         if (null != ret) {
@@ -672,11 +571,11 @@ public class StringPro {
         StringBuilder sbd = new StringBuilder();
         sbd.append((char) 10);
 
-        String[] str = { sbd.toString().concat("ÖĞ¹ú"), "Ñ§Àú", "ÀúÊ·", "±±Æ½", "¹ãÖİ",
-                "Îäºº", "ÌìµØÈË", "ÌìµØ", "ÉÏº£", "Ìì½ò", "1 4", "501", "ÌìÉÏ" };
+        String[] str = { sbd.toString().concat("ï¿½Ğ¹ï¿½"), "Ñ§ï¿½ï¿½", "ï¿½ï¿½Ê·", "ï¿½ï¿½Æ½", "ï¿½ï¿½ï¿½ï¿½",
+                "ï¿½äºº", "ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½", "ï¿½Ïºï¿½", "ï¿½ï¿½ï¿½", "1 4", "501", "ï¿½ï¿½ï¿½ï¿½" };
         Set<String> set = new java.util.HashSet<String>();
         java.util.Collections.addAll(set, str);
-        String text = "ÌìµØÈË";
+        String text = "ï¿½ï¿½ï¿½ï¿½ï¿½";
         Map<Character, Object> m = StringPro.createDictionary(set);
         // Map<Character, Object> m = StringPro.createIndexOfPatterns(set);
         System.out.println(m.toString());
@@ -684,7 +583,7 @@ public class StringPro {
         System.out.println(text);
         Map<String, Integer> rm = StringPro.quickMatchTest(text, m);
         // Map<String, Integer> rm = StringPro.matchesPatterns(text, m, set);
-        // System.out.println("ºÄÊ±£º" + (new Date().getTime() - t));
+        // System.out.println("ï¿½ï¿½Ê±ï¿½ï¿½" + (new Date().getTime() - t));
         for (String s : rm.keySet()) {
             System.out.println(s + ": " + rm.get(s));
         }

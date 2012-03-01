@@ -129,7 +129,6 @@ public class XMLHandler extends AbsHandler {
     @Override
     public void startElement(String uri, String localName, String qName,
             Attributes attributes) throws SAXException {
-
         String className = attributes.getValue("class");
         if (null == className) {
             // set default class name
@@ -171,7 +170,7 @@ public class XMLHandler extends AbsHandler {
             if (null == currObject) {
                 isBaseType = false;
                 currObject = encapsulateObject(attributes, c);
-                String hashcode = tempItemName;
+                String hashcode = tempHashcode;
                 if (null != hashcode && !"".equals(hashcode)) {
                     Object obj = objMap.get(hashcode);
                     if (null != obj) {
@@ -183,7 +182,7 @@ public class XMLHandler extends AbsHandler {
             } else {
                 if ("0".equals(tempHashcode)) {
                     currObject = parseValue(null, c);
-                } else {
+                } else if (null != tempHashcode && !"".equals(tempHashcode)){
                     Object obj = objMap.get(tempHashcode);
                     if (null != obj)
                         currObject = obj;

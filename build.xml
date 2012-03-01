@@ -1,0 +1,62 @@
+<project name="ztools" default="run" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<!-- some variables used -->
+	<property name="lib.dir" value="lib" />
+	<property name="build.dir" value="bin" />
+	<property name="src.dir" value="src" />
+	<property name="src.test" value="test" />
+	<property name="dist.dir" value="dist" />
+
+	<!-- paths used for compilation and run  -->
+	<path id="lib.path.id">
+		<fileset dir="${lib.dir}" />
+	</path>
+	<path id="run.path.id">
+		<path refid="lib.path.id" />
+		<path location="${build.dir}" />
+	</path>
+
+	<!-- ================================= 
+          target: resolve              
+         ================================= -->
+	<target name="resolve" description="--> retreive dependencies with ivy">
+		<ivy:retrieve />
+	</target>
+
+	<!-- ================================= 
+          target: report              
+         ================================= -->
+	<target name="report" depends="resolve" description="--> generates a report of dependencies">
+		<ivy:report todir="${build.dir}" />
+	</target>
+
+	<!-- ================================= 
+          target: run
+         ================================= -->
+	<target name="run" depends="resolve" description="--> compile and run the project">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${dist.dir}/lib" />
+		<javac srcdir="${src.dir}" includeantruntime="false" destdir="${build.dir}" classpathref="lib.path.id" />
+		<!--
+		<property name="msg" value="hello ivy !" />
+        <java classpathref="run.path.id" classname="example.Hello">
+        	<arg value="-message"/>
+        	<arg value="${msg}"/>
+    	</java>
+    	-->
+	</target>
+
+	<!-- ================================= 
+          target: clean              
+         ================================= -->
+	<target name="clean" description="--> clean the project">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}}" />
+	</target>
+
+	<!-- ================================= 
+          target: clean-cache              
+         ================================= -->
+	<target name="clean-cache" description="--> clean the ivy cache">
+		<ivy:cleancache />
+	</target>
+</project>

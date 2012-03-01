@@ -12,14 +12,34 @@ import java.util.Set;
 import org.junit.Test;
 
 import com.ztools.xml.XMLBean;
+import com.ztools.xml.XMLHandler;
 import com.ztools.xml.XMLReader;
 import com.ztools.xml.XMLWriter;
 import com.ztools.xml.ZHandler;
 
 public class XMLRWTest {
-    
+
     @Test
-    public void testObjectToXml(){
+    public void testFilterChar() {
+
+        int[][] RESTRICTED_CHAR_BLOCKS = { { 0x0, 0x8 }, { 0xB, 0xC },
+                { 0xE, 0x1F }, { 0x7F, 0x84 }, { 0x86, 0x9F },
+                { 0xFDD0, 0xFDDF }, { 0xFFFE, 0xFFFF } };
+        List<String> sl = new ArrayList<String>();
+        for (int i = 0; i < RESTRICTED_CHAR_BLOCKS.length; i++) {
+            for (int j = RESTRICTED_CHAR_BLOCKS[i][0]; j <= RESTRICTED_CHAR_BLOCKS[i][1]; j++) {
+                sl.add(j + " input> 这是[" + (char) j + "]的输出测试");
+            }
+        }
+
+        for (int i = 0; i < sl.size(); i++) {
+            System.out.println(sl.get(i) + " "
+                    + XMLWriter.toXmlString(sl.get(i)));
+        }
+    }
+
+    @Test
+    public void testObjectToXml() {
         Person p = new Person("Name" + 3, 3 + "", "f");
 
         Object[] arr = { 1, "2", 1 };
@@ -65,16 +85,15 @@ public class XMLRWTest {
 
         p.setHouses(houses);
         List<Person> list = new ArrayList<Person>();
-        list.add
-        (p);
-//        XMLBean xmlbean = new XMLBean("f:/person.xml");
-//        xmlbean.setBean(p);
-//        try {
-//            XMLWriter.writeXmlBean(xmlbean);
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
+        list.add(p);
+        // XMLBean xmlbean = new XMLBean("f:/person.xml");
+        // xmlbean.setBean(p);
+        // try {
+        // XMLWriter.writeXmlBean(xmlbean);
+        // } catch (IOException e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // }
         System.out.println(XMLWriter.objectToXmlString(p));
     }
 
@@ -298,7 +317,7 @@ public class XMLRWTest {
         XMLBean xmlBean = new XMLBean("e:/base_data_type.xml", Object.class);
         List<Object> list = new ArrayList<Object>();
         String a = null;
-        int i=3;
+        int i = 3;
         list.add(new String[] { "a", "b" });
         Map<String, String> m = new HashMap<String, String>();
         m.put("a", "a0001");
@@ -315,29 +334,28 @@ public class XMLRWTest {
         list.add((byte) 120); // byte
         list.add(true);
 
-        list.add('c'); // char
-        list.add("hello<>&';:\" xml");
+        list.add((char) 0x0ffff); // char
+        list.add("hello<>&';:\" xml\u3FFFE;");
         Person p = new Person("aaa", "12", "");
         list.add(p);
 
-//        xmlBean.setItemList(list);
+        // xmlBean.setItemList(list);
         xmlBean.setBean(list);
         try {
             XMLWriter.writeXmlBean(xmlBean);
-//            XMLWriter.writeXMLBean(xmlBean);
+            // XMLWriter.writeXMLBean(xmlBean);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
         XMLBean xmlBean2 = new XMLBean("e:/base_data_type.xml", Person.class);
-//        xmlBean.
-//        list = new ArrayList<Object>();
-//        xmlBean2.setItemList(list);
-//        xmlBean2.setHandler(new ZHandler());
+        // xmlBean.
+        // list = new ArrayList<Object>();
+        // xmlBean2.setItemList(list);
+        // xmlBean2.setHandler(new ZHandler());
         XMLReader.readXMLBean(xmlBean2);
-        
-        
+
         System.out.println("item: " + xmlBean2.getBean());
         xmlBean2.setPath("e:/base_data_type2.xml");
         try {
@@ -346,6 +364,35 @@ public class XMLRWTest {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+    }
+
+    public static void main(String[] args) {
+//        args = new String[] {"e:/person2.xml"};
+        if (1 > args.length) {
+            System.out
+                    .println("XMLRWTest <filepath> [handle] [charset]"
+                            + "\r\n\tfilepath : xml file path."
+                            + "\r\n\t  handle : default and '0' is ZHandler, other is XMLHandler."
+                            + "\r\n\t charset : utf-8 gbk gb2312 ...");
+            return;
+        }
         
+        XMLBean xmlBean = new XMLBean(args[0]);
+        if (2 <= args.length)  {
+            if (!"0".equals(args[1])) {
+                xmlBean.setHandler(new XMLHandler(xmlBean));
+            }
+        }
+        
+        if (3 == args.length) {
+            xmlBean.setCharset(args[2]);
+        }
+        System.out.print("Reading ...");
+        XMLReader.readXMLBean(xmlBean);
+        System.out.print(" over \r\nParse ...\r\n");
+        Object obj = xmlBean.getBean();
+        System.out.println(XMLWriter.objectToXmlString(obj));
+        System.out.println("over!");
     }
 }

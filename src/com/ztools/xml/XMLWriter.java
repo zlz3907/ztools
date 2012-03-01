@@ -33,6 +33,22 @@ public class XMLWriter implements Serializable {
 
     private static IXMLProcess iXmlProcess = null;
 
+    // excluding the surrogate blocks
+    // [#x1FFFE-#x1FFFF], [#x2FFFE-#x2FFFF], [#x3FFFE-#x3FFFF],
+    // [#x4FFFE-#x4FFFF], [#x5FFFE-#x5FFFF], [#x6FFFE-#x6FFFF],
+    // [#x7FFFE-#x7FFFF], [#x8FFFE-#x8FFFF], [#x9FFFE-#x9FFFF],
+    // [#xAFFFE-#xAFFFF], [#xBFFFE-#xBFFFF], [#xCFFFE-#xCFFFF],
+    // [#xDFFFE-#xDFFFF], [#xEFFFE-#xEFFFF], [#xFFFFE-#xFFFFF],
+    // [#x10FFFE-#x10FFFF].
+    private static final int[] EXCLUDING_SURROGATE_BLOCK = { 0xFFFE, 0xFFFF };
+    private static final int EXCLUDING_MASK = 0xFFFF;
+    // restricted chars
+    // [#x1-#x8], [#xB-#xC], [#xE-#x1F], [#x7F-#x84], [#x86-#x9F],
+    // [#xFDD0-#xFDDF],
+    private static final int[][] RESTRICTED_CHAR_BLOCKS = { { 0x0, 0x8 },
+            { 0xB, 0xC }, { 0xE, 0x1F }, { 0x7F, 0x84 }, { 0x86, 0x9F },
+            { 0xFDD0, 0xFDDF } };
+
     public enum XMLChars {
         LESSTHAN("&lt;", '<'), GREATERTHAN("&gt;", '>'), AMP("&amp;", '&'), APOS(
                 "&apos;", '\''), QUOT("&quot;", '"');
@@ -70,19 +86,34 @@ public class XMLWriter implements Serializable {
 
     }
 
-    private static String toXmlString(String str) {
-        return str;// LatinChar.toXMLString(str);
-        // StringBuilder sbd = new StringBuilder();
-        // char[] cs = str.toCharArray();
-        // for (int i = 0; i < cs.length; i++) {
-        // XMLChars x = XMLChars.search(cs[i]);
-        // if (null == x) {
-        // sbd.append(cs[i]);
-        // } else {
-        // sbd.append(x.getXmlString());
-        // }
-        // }
-        // return sbd.toString();
+    public static String toXmlString(String str) {
+
+        StringBuilder sbd = new StringBuilder();
+        char[] cs = str.toCharArray();
+        for (int i = 0; i < cs.length; i++) {
+            boolean isRestricted = false;
+
+            // [*FFFE]-[*FFFF]
+            if ((cs[i] & EXCLUDING_MASK) == EXCLUDING_SURROGATE_BLOCK[0]
+                    || (cs[i] & EXCLUDING_MASK) == EXCLUDING_SURROGATE_BLOCK[1]) {
+                continue;
+            }
+
+            for (int j = 0; j < RESTRICTED_CHAR_BLOCKS.length; j++) {
+                if (RESTRICTED_CHAR_BLOCKS[j][0] <= cs[i]
+                        && cs[i] <= RESTRICTED_CHAR_BLOCKS[j][1]) {
+                    isRestricted = true;
+                    break;
+                }
+            }
+
+            if (isRestricted) {
+                sbd.append(' ');
+                continue;
+            }
+            sbd.append(cs[i]);
+        }
+        return sbd.toString();
     }
 
     /**
@@ -296,11 +327,13 @@ public class XMLWriter implements Serializable {
 
         String tmpValue = parseValue(obj);
         if (null != tmpValue) { // java base type
-            if (String.class.equals(obj.getClass())) {
+            if (String.class.equals(obj.getClass())
+                    || char.class.equals(obj.getClass())
+                    || Character.class.equals(obj.getClass())) {
                 tmpValue = tmpValue.replaceAll(
                         "(\\u003c!\\u005bCDATA\\u005b|\\u005d\\u005d\\u003e)",
                         " ");
-                tmpValue = CDATA_PREF + tmpValue + CDATA_END;
+                tmpValue = CDATA_PREF + toXmlString(tmpValue) + CDATA_END;
             }
             sbd.append("<").append(name);
             sbd.append(" hashcode=\"");

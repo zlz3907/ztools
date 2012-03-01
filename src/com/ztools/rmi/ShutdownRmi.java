@@ -16,19 +16,18 @@ public class ShutdownRmi {
 		try {
 			AutoConfigurer rmiServer = ALCFFactory
 			.createAutoConfiger(Environment.getContext()+"conf/rmiServer_config.properties");
-			//rmi 注册的类
 			
 			String serverName = rmiServer.getValue("rmi.ztoolserver");
 			int prot = Integer.parseInt(rmiServer.getValue("rmi.ztoolprot"));
 			InetAddress addr = InetAddress.getLocalHost();
-			String ip=addr.getHostAddress().toString();//获得本机IP
+			String ip=addr.getHostAddress().toString();//锟斤拷帽锟斤拷锟絀P
 			Registry registry = LocateRegistry.getRegistry(ip, prot);
 			registry.unbind(serverName);
 //			UnicastRemoteObject.unexportObject(registry.lookup(serverName), true);
-			JOptionPane.showMessageDialog(null, "ztoolRmiServer:is shutDown is success.....","提示信息", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, "ztoolRmiServer:is shutDown is success.....","", JOptionPane.OK_OPTION);
 		} catch (Exception e) {
 			System.out.println("RmiServer failed: " + e);
-			JOptionPane.showMessageDialog(null, "ztoolRmiServer  shutDown is failure.....\n"+ e,"提示信息", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, "ztoolRmiServer  shutDown is failure.....\n"+ e,"", JOptionPane.OK_OPTION);
 		}
 	} 
 	public static void main(String[] args) {
