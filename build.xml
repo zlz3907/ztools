@@ -5,6 +5,9 @@
 	<property name="src.dir" value="src" />
 	<property name="src.test" value="test" />
 	<property name="dist.dir" value="dist" />
+	<property name="version" value="1.09"/>
+	<property name="project.name" value="ztools"/>
+
 
 	<!-- paths used for compilation and run  -->
 	<path id="lib.path.id">
@@ -58,5 +61,14 @@
          ================================= -->
 	<target name="clean-cache" description="--> clean the ivy cache">
 		<ivy:cleancache />
+	</target>
+
+
+	<target name="dist" depends="run" description="generate the distribution">
+		<!-- Create the distribution directory -->
+		<mkdir dir="${dist.dir}/lib" />
+
+		<!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+		<jar jarfile="${dist.dir}/lib/${project.name}-${version}.jar" basedir="${build.dir}" />
 	</target>
 </project>

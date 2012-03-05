@@ -9,7 +9,7 @@
 	OF ANY KIND, either express or implied. See the License for the specific 
 	language governing permissions and limitations under the License. -->
 <ivy-module version="2.0">
-	<info organisation="com.8chedao" module="ztools" />
+	<info organisation="com.8chedao" module="ztools" revision="working@ZhongLizhi-PC" status="integration" publication="20120302125712"/>
 	<dependencies>
 		<!-- <dependency org="commons-lang" name="commons-lang" 
 			rev="2.0"/> <dependency org="commons-cli" name="commons-cli" rev="1.0"/> -->
