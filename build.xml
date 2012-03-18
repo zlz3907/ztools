@@ -7,7 +7,10 @@
 	<property name="dist.dir" value="dist" />
 	<property name="version" value="1.09"/>
 	<property name="project.name" value="ztools"/>
-
+	<!-- ivy settings -->
+		<property name="ivy.cache.dir" value="${basedir}/ivy/cache" />
+		<property name="ivy.settings.dir" value="ivy/settings" />
+		<ivy:settings file="${ivy.settings.dir}/ivysettings.xml" />
 
 	<!-- paths used for compilation and run  -->
 	<path id="lib.path.id">

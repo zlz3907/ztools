@@ -4,10 +4,10 @@
 	<info
 		organisation="com.8chedao"
 		module="ztools"
-		revision="working@ZhongLizhi-PC"
+		revision="working@CR33B"
 		conf="default"
 		confs="default"
-		date="20120305152853"/>
+		date="20120318114150"/>
 	<dependencies>
 	</dependencies>
 </ivy-report>
