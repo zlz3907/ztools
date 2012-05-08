@@ -1,0 +1,14 @@
+<ivysettings>
+	<settings defaultResolver="co" />
+	<caches default="l-cache" resolutionCacheDir="${basedir}/ivy/cache">
+		<cache name="l-cache" basedir="${basedir}/ivy/cache" />
+	</caches>
+	<resolvers>
+		<chain name="co">
+			<filesystem name="co-local">
+				<artifact pattern="/home/lizhi/ivyrepository/[artifact]-[revision].[ext]" />
+			</filesystem>
+			<ibiblio name="maven2" m2compatible="false" />
+		</chain>
+	</resolvers>
+</ivysettings>
