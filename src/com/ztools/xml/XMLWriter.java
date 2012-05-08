@@ -316,7 +316,8 @@ public class XMLWriter implements Serializable {
             name = name.substring(begin, end).toLowerCase()
                     + name.substring(end);
         }
-        if (!set.add(obj)) {
+        String tmpValue = parseValue(obj);
+        if (null == tmpValue && !set.add(obj)) {
             sbd.append("<").append(name);
             sbd.append(" hashcode=\"");
             sbd.append(obj.hashCode());
@@ -325,7 +326,6 @@ public class XMLWriter implements Serializable {
             return;
         }
 
-        String tmpValue = parseValue(obj);
         if (null != tmpValue) { // java base type
             if (String.class.equals(obj.getClass())
                     || char.class.equals(obj.getClass())
@@ -336,9 +336,7 @@ public class XMLWriter implements Serializable {
                 tmpValue = CDATA_PREF + toXmlString(tmpValue) + CDATA_END;
             }
             sbd.append("<").append(name);
-            sbd.append(" hashcode=\"");
-            sbd.append(obj.hashCode());
-            sbd.append("\" class=\"");
+            sbd.append(" class=\"");
             sbd.append(obj.getClass().getName()).append("\">");
             sbd.append(iXmlProcess.write(tmpValue)).append("</");
             sbd.append(name).append(">");
@@ -379,7 +377,14 @@ public class XMLWriter implements Serializable {
             sbd.append("\" >");
             Map<?, ?> map = (Map<?, ?>) obj;
             for (Object key : map.keySet()) {
-                objectToXmlString(map.get(key), sbd, set, key + "");
+
+				sbd.append("<entry isMapEntry=\"true\">");
+				objectToXmlString(key, sbd, set, "key");
+//				sbd.append("</key><value>");
+				objectToXmlString(map.get(key), sbd, set, "value");
+				sbd.append("</entry>");
+			
+//                objectToXmlString(map.get(key), sbd, set, key + "");
             }
             sbd.append("</").append(name).append(">");
         } else { // common java bean
