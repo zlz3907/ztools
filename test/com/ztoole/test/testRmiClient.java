@@ -18,9 +18,6 @@ import com.ztools.xml.XMLReader;
 import com.ztools.xml.XMLWriter;
 
 public class testRmiClient {
-    /**
-     * ²éÕÒÔ¶³Ì¶ÔÏó²¢µ÷ÓÃÔ¶³Ì·½·¨
-     */
     public static void main(String[] argv) {
 
         XMLBean xmlBean = new XMLBean("e:/person.xml", Person.class);
@@ -110,7 +107,7 @@ public class testRmiClient {
     }
 
     public void localWriteXML() {
-        // Ð´ÈëµÄÂ·¾¶
+        // Ð´ï¿½ï¿½ï¿½Â·ï¿½ï¿½
         XMLBean xmlBean = new XMLBean(Environment.getContext()
                 + "conf/rmiClient_config1.xml", RmiConfigBean.class);
         RmiConfigBean rmiConfigBean1 = new RmiConfigBean();
@@ -143,7 +140,7 @@ public class testRmiClient {
             Properties prop = new Properties();
             fin = new FileInputStream(Environment.getContext()
                     + "conf/rmiServer_config.properties");
-            prop.load(fin); // ÔØÈëÎÄ¼þ
+            prop.load(fin); // ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
             ConfigService.localConfig.writeAutoConfiger(Environment
                     .getContext()
                     + "conf/rmiServer_config11.properties", prop);
@@ -223,7 +220,7 @@ public class testRmiClient {
             fin = new FileInputStream(Environment.getContext()
                     + "conf/rmiServer_config.properties");
 
-            prop.load(fin); // ÔØÈëÎÄ¼þ
+            prop.load(fin); // ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
             IConfig.writeAutoConfiger(fileName, prop, groupName);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block

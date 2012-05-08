@@ -49,14 +49,9 @@ public class ALCFFactory {
         OutputStream fos = null;
         try {
           fis = new FileInputStream(filePath);
-               //从输入流中读取属性列表（键和元素对）
                prop.load(fis);
-               //调用 Hashtable 的方法 put。使用 getProperty 方法提供并行性。
-               //强制要求为属性的键和值使用字符串。返回值是 Hashtable 调用 put 的结果。
                 fos = new FileOutputStream(filePath);
                prop.setProperty(parameterName, parameterValue);
-               //以适合使用 load 方法加载到 Properties 表中的格式，
-               //将此 Properties 表中的属性列表（键和元素对）写入输出流
                prop.store(fos, "Update '" + parameterName + "' value");
                
            } catch (IOException e) {
@@ -83,11 +78,11 @@ public class ALCFFactory {
 				autoConfiger = ALCFFactory
 						.createAutoConfiger("path/filename");
 			} catch (FileNotFoundException e2) {
-				//没找到文件
+				//没锟揭碉拷锟侥硷拷
 				e2.printStackTrace();
 				System.exit(1);
 			} catch (IOException e2) {
-				// 流异常
+				// 锟斤拷锟届常
 				System.exit(2);
 				e2.printStackTrace();
 			}

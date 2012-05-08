@@ -4,9 +4,12 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,6 +40,8 @@ public class ZHandler extends AbsHandler {
     private IXMLProcess iXmlProcess = null;
 
     private Object bean;
+
+    private String defaultClassName = null;
 
     private String charset;
 
@@ -104,6 +109,11 @@ public class ZHandler extends AbsHandler {
                 return null;
             }
             try {
+
+                if (Timestamp.class.equals(c)) {
+                    return new Timestamp(System.currentTimeMillis());
+                }
+
                 Object obj = c.newInstance();
                 for (int i = 0; i < fs.length; i++) {
                     String value = attributes.getValue(fs[i].getName());
@@ -154,6 +164,7 @@ public class ZHandler extends AbsHandler {
             rootName = qName;
             isRoot = false;
             iXmlProcess = XMLProcessFactory.getXmlProcess(rootName);
+            defaultClassName = attributes.getValue("class");
         }
         // is root
         if (this.rootName.equals(qName)) {
@@ -172,6 +183,10 @@ public class ZHandler extends AbsHandler {
                                                    // //
                                                    // this.bean.getBeanClass().getName();
             }
+
+            if (null == className) {
+                className = defaultClassName;
+            }
             Class<?> c = Class.forName(className);
             currObject = parseValue("0", c);
             if (c.isArray()) {
@@ -189,7 +204,9 @@ public class ZHandler extends AbsHandler {
                     }
                 }
             } else {
-
+                if ("0".equals(currObject)) {
+                    currObject = "";
+                }
                 if ("0".equals(tempHashcode)) {
                     currObject = parseValue(null, c);
                 } else {
@@ -227,6 +244,19 @@ public class ZHandler extends AbsHandler {
             }
             int tempItemIndex = depth - 1 - 1;
             tempItemObject.set(tempItemIndex, currObject);
+        } else if (null != currObject && currObject instanceof Timestamp) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            try {
+                String s = new String(ch).substring(start, start + length);
+                currObject = new Timestamp(sdf.parse(s).getTime());
+                int tempItemIndex = depth - 1 - 1;
+                tempItemObject.set(tempItemIndex, currObject);
+            } catch (ParseException e) {
+                // currObject = new
+                // Timestamp(Calendar.getInstance().getTimeInMillis());
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -314,7 +344,7 @@ public class ZHandler extends AbsHandler {
                 Array.set(arr, length, curr);
                 this.tempItemObject.set(tempItemIndex - 1, arr);
             } else if (obj instanceof Map<?, ?>) {
-                Map<Object,Object> map = (Map<Object,Object>)obj;
+                Map<Object, Object> map = (Map<Object, Object>) obj;
                 map.put(qName, curr);
             } else if (obj instanceof Collection<?>) {
                 Collection<Object> c = (Collection<Object>) obj;
@@ -327,8 +357,8 @@ public class ZHandler extends AbsHandler {
                 try {
                     Method[] ms = obj.getClass().getMethods();
                     for (int i = 0; i < ms.length; i++) {
-                        if (0 == ms[i].getName().toLowerCase()
-                                .indexOf("set" + qName.toLowerCase())) {
+                        if (ms[i].getName().toLowerCase()
+                                .equals("set" + qName.toLowerCase())) {
                             m = ms[i];
                             break;
                         }

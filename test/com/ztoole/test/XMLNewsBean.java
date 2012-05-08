@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 public class XMLNewsBean implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String nav;// 导航
-    private String pageSort;// 原始名schType;// 本网类型 新车 评测 等
-    private String pageSubSort;// 原始名schSubType;// 本网二级类型 国内新车 国外新车 等
-    private String location;// 原始名area;// 文章地区 全国 or 某个城市
-    private Integer inPageSequence;// 页面顺序 原始名 orders;// 文章出现在第几条
-    private String content;// 文章内容 原始名 txt;
+    private String nav;
+    private String pageSort;
+    private String pageSubSort;
+    private String location;
+    private Integer inPageSequence;
+    private String content;
 
     public XMLNewsBean() {
 

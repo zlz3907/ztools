@@ -26,14 +26,19 @@ public class XMLReader implements Serializable {
             AbsHandler handler = xmlBean.getHandler();
             if (null == handler) {
 //                XMLHandler mr = new XMLHandler(xmlBean);
+//                handler = mr;//new ZHandler();
                 handler = new ZHandler();
             }
             try {
                 saxParser = spf.newSAXParser();
                 saxParser.parse(new File(filename), handler);
-                xmlBean.setBean(handler.getXmlObject());
-                if (handler.getXmlObject() instanceof List<?>) {
-                    xmlBean.setItemList((List<?>)handler.getXmlObject());
+                if (null != handler.getXmlObject()) {
+                    xmlBean.setBean(handler.getXmlObject());
+                    if (handler.getXmlObject() instanceof List<?>) {
+                        xmlBean.setItemList((List<?>)handler.getXmlObject());
+                    }
+                } else {
+                    xmlBean.setBean(xmlBean.getItemList());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
