@@ -142,6 +142,8 @@ public class XMLWriter implements Serializable {
         sbd.append("<?xml version=\"1.0\" encoding=\"");
         sbd.append("UTF-8");
         sbd.append("\"?>").append(END_LINE);
+        sbd.append("<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>");
+        sbd.append(END_LINE);
         sbd.append("<");
         sbd.append("XMLBean");
         Class<?> beanClass = obj.getClass();
@@ -178,6 +180,8 @@ public class XMLWriter implements Serializable {
                 sbd.append("<?xml version=\"1.0\" encoding=\"");
                 sbd.append(xmlBean.getCharset());
                 sbd.append("\"?>").append(END_LINE);
+                sbd.append("<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>");
+                sbd.append(END_LINE);
                 sbd.append("<");
                 sbd.append(xmlBean.getRootName());
                 Class<?> beanClass = xmlBean.getBeanClass();
