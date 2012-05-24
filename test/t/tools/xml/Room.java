@@ -1,4 +1,4 @@
-package com.ztoole.test;
+package t.tools.xml;
 
 public class Room {
     private int roomNumber;

@@ -1,4 +1,4 @@
-package com.ztoole.test;
+package t.tools.xml;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

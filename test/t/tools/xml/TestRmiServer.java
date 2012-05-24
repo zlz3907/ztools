@@ -1,4 +1,4 @@
-package com.ztoole.test;
+package t.tools.xml;
 
 import com.ztools.rmi.ConfigService;
 

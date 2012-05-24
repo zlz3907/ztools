@@ -10,8 +10,8 @@
 	language governing permissions and limitations under the License. -->
 <ivy-module version="2.0">
 	<info organisation="com.8chedao" module="ztools" />
-	<dependencies>
-		<!-- <dependency org="commons-lang" name="commons-lang" rev="2.0"/> <dependency 
-			org="commons-cli" name="commons-cli" rev="1.0"/> -->
+	<dependencies> 
+			<dependency org="junit" name="junit" rev="4.8.2" />
+			<dependency org="junit" name="hamcrest" rev="1.1.0" />
 	</dependencies>
 </ivy-module>
