@@ -5,9 +5,13 @@
 	</caches>
 	<resolvers>
 		<chain name="co" returnFirst="true">
-			<filesystem name="co-local">
-				<artifact pattern="/home/lizhi/ivyrepository/[artifact]-[revision].[ext]" />
-			</filesystem>
+			<ssh name="publicher" host="192.168.7.242" user="kfs"
+				userPassword="kfs123">
+				<artifact pattern="/home/kfs/ivyrepository/[artifact]-[revision].[ext]" />
+			</ssh>
+<!-- 			<filesystem name="co-local"> -->
+<!-- 				<artifact pattern="/home/lizhi/ivyrepository/[artifact]-[revision].[ext]" /> -->
+<!-- 			</filesystem> -->
 			<ibiblio name="ibiblio" />
 		</chain>
 	</resolvers>

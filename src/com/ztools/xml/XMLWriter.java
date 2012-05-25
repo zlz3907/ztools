@@ -346,7 +346,7 @@ public class XMLWriter implements Serializable {
             sbd.append(name).append(">");
             return;
         } else if (obj.getClass().isArray()) { // base array
-            name = name.substring(0, name.length() - 2);
+        // name = name.substring(0, name.length() - 2); // ????
             sbd.append("<").append(name).append(" hashcode=\"");
             sbd.append(obj.hashCode());
             sbd.append("\" class=\"").append(obj.getClass().getName());
@@ -382,13 +382,13 @@ public class XMLWriter implements Serializable {
             Map<?, ?> map = (Map<?, ?>) obj;
             for (Object key : map.keySet()) {
 
-				sbd.append("<entry isMapEntry=\"true\">");
-				objectToXmlString(key, sbd, set, "key");
-//				sbd.append("</key><value>");
-				objectToXmlString(map.get(key), sbd, set, "value");
-				sbd.append("</entry>");
-			
-//                objectToXmlString(map.get(key), sbd, set, key + "");
+                sbd.append("<entry isMapEntry=\"true\">");
+                objectToXmlString(key, sbd, set, "key");
+                // sbd.append("</key><value>");
+                objectToXmlString(map.get(key), sbd, set, "value");
+                sbd.append("</entry>");
+
+                // objectToXmlString(map.get(key), sbd, set, key + "");
             }
             sbd.append("</").append(name).append(">");
         } else { // common java bean

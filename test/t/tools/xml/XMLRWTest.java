@@ -84,8 +84,8 @@ public class XMLRWTest {
         houses.add(new House("hourse3", "wuhan", 120));
 
         p.setHouses(houses);
-        List<Person> list = new ArrayList<Person>();
-        list.add(p);
+//        List<Person> list = new ArrayList<Person>();
+//        list.add(p);
         // XMLBean xmlbean = new XMLBean("f:/person.xml");
         // xmlbean.setBean(p);
         // try {
