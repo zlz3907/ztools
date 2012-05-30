@@ -9,9 +9,9 @@
 				userPassword="kfs123">
 				<artifact pattern="/home/kfs/ivyrepository/[artifact]-[revision].[ext]" />
 			</ssh>
-<!-- 			<filesystem name="co-local"> -->
-<!-- 				<artifact pattern="/home/lizhi/ivyrepository/[artifact]-[revision].[ext]" /> -->
-<!-- 			</filesystem> -->
+ 			<filesystem name="co-local"> 
+			  <artifact pattern="/home/lizhi/ivyrepository/[artifact]-[revision].[ext]" />  			
+			</filesystem>
 			<ibiblio name="ibiblio" />
 		</chain>
 	</resolvers>
