@@ -1,9 +1,0 @@
-/bin
-/dist
-.settings
-.classpath
-.project
-/lib
-/build
-/ivy/cache
-
