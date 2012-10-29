@@ -67,16 +67,13 @@ public class XMLTest {
         Object objA = creatTestObject();
         String xml1 = XMLWriter.objectToXmlString(objA);
         Assert.assertNotNull(xml1);
-         System.out.println(xml1.replaceAll(" hashcode=\"-?\\d+\"", ""));
+
+        // System.out.println(xml1.replaceAll(" hashcode=\"-?\\d+\"", ""));
         // System.out.println("--------------------");
         Object objB = XMLReader.xmlStringToObject(xml1);
         String xml2 = XMLWriter.objectToXmlString(objB);
         // System.out.println(xml2.replaceAll(" hashcode=\"-?\\d+\"", ""));
         Assert.assertEquals(xml1.replaceAll(" hashcode=\"-?\\d+\"", ""),
                 xml2.replaceAll(" hashcode=\"-?\\d+\"", ""));
-    }
-
-    public static void main(String[] args) {
-	System.out.println("Hello EMACS!!!");
     }
 }
