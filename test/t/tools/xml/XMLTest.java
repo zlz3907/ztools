@@ -75,4 +75,8 @@ public class XMLTest {
         Assert.assertEquals(xml1.replaceAll(" hashcode=\"-?\\d+\"", ""),
                 xml2.replaceAll(" hashcode=\"-?\\d+\"", ""));
     }
+
+    public static void main(String[] args) {
+	System.out.println("Hello EMACS!!!");
+    }
 }

@@ -6,4 +6,5 @@
 /lib
 /build
 /ivy/cache
+*.cache
 
