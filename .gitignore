@@ -8,4 +8,5 @@
 /ivy/cache
 **.cache*
 prj.el
-.gitignore
+**~
+
