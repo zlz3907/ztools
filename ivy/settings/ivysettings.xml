@@ -4,14 +4,14 @@
 		<cache name="l-cache" basedir="${basedir}/ivy/cache" />
 	</caches>
 	<resolvers>
-		<chain name="co" returnFirst="true">
+		<chain name="co" returnFirst="false">
 			<ssh name="publicher" host="192.168.7.242" user="kfs"
 				userPassword="kfs123">
 				<artifact pattern="/home/kfs/ivyrepository/[artifact]-[revision].[ext]" />
 			</ssh>
- 			<filesystem name="co-local"> 
-			  <artifact pattern="/home/lizhi/ivyrepository/[artifact]-[revision].[ext]" />  			
-			</filesystem>
+ 			<!--filesystem name="co-local"> 
+			  <artifact pattern="~/ivyrepository/[artifact]-[revision].[ext]" />  			
+			</filesystem-->
 			<ibiblio name="ibiblio" />
 		</chain>
 	</resolvers>
