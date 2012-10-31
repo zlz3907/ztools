@@ -6,5 +6,6 @@
 /lib
 /build
 /ivy/cache
-*.cache
-
+**.cache*
+prj.el
+.gitignore
