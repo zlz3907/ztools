@@ -17,11 +17,13 @@ public class EmacsTest {
 	} catch (Exception e) {
             e.printStackTrace();
 	}
-        String cs = "oh!";
+        String cs = "oh!你";
+        System.out.println("cs: " + ccs);
         byte[] bs2 = cs.getBytes();
         for (int i = 0; i < bs2.length; i++) {
             System.out.println("cs byte: " + bs2[i]);
 	}
+
     }
 
 }
