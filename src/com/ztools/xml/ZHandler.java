@@ -50,9 +50,9 @@ public class ZHandler extends AbsHandler {
 
     private Map<String, Object> objMap = new HashMap<String, Object>();
 
-    private boolean isMapEntry = false;
-    private Object currKey;
-    private Object currValue;
+    private Map<Integer, Boolean> isMapEntry = new HashMap<Integer, Boolean>();
+    private Map<Integer, Object> currKey = new HashMap<Integer, Object>();
+    private Map<Integer, Object> currValue = new HashMap<Integer, Object>();
 
     public String getCharset() {
         return charset;
@@ -194,9 +194,9 @@ public class ZHandler extends AbsHandler {
             Class<?> c = Class.forName(className);
             currObject = parseValue("0", c);
 
-            if ("true".equals(attributes.getValue("isMapEntry"))) {
-                isMapEntry = true;
-            }
+            //if ("true".equals(attributes.getValue("isMapEntry"))) {
+            //    isMapEntry = true;
+            //}
 
             if (c.isArray()) {
                 currObject = Array.newInstance(c.getComponentType(), 0);
@@ -236,6 +236,11 @@ public class ZHandler extends AbsHandler {
         } else {
             this.tempItemObject.add(tempItemIndex, currObject);
         }
+
+        if ("true".equals(attributes.getValue("isMapEntry"))) {
+            isMapEntry.put(tempItemIndex, true);
+        }
+
         isEndElement = false;
         depth++;
     }
@@ -355,11 +360,12 @@ public class ZHandler extends AbsHandler {
             } else if (obj instanceof Map<?, ?>) {
                 Map<Object, Object> map = (Map<Object, Object>) obj;
 
-                if (isMapEntry) {
-                    isMapEntry = false;
-                    map.put(currKey, currValue);
-                    currKey = null;
-                    currValue = null;
+                Boolean isME = isMapEntry.get(tempItemIndex);
+                if (null != isME && isME) {
+                    isMapEntry.put(tempItemIndex, false);
+                    map.put(currKey.get(tempItemIndex + 1), currValue.get(tempItemIndex + 1));
+                    currKey.put(tempItemIndex, null);
+                    currValue.put(tempItemIndex, null);
                 } else {
                     map.put(qName, curr);
                 }
@@ -370,7 +376,8 @@ public class ZHandler extends AbsHandler {
                 this.tempItemObject.set(tempItemIndex - 1, c);
             } else if (null != obj) {
                 // String methodName = getMethodName(qName);
-                if (isMapEntry
+                Boolean isME = isMapEntry.get(tempItemIndex);
+                if (null != isME && isME
                         && ("key".equals(qName) || "value".equals(qName))) {
 
                 } else {
@@ -407,10 +414,10 @@ public class ZHandler extends AbsHandler {
             }
 
             if ("key".equals(qName)) {
-                currKey = curr;
+                currKey.put(tempItemIndex, curr);
             }
             if ("value".equals(qName)) {
-                currValue = curr;
+                currValue.put(tempItemIndex, curr);
             }
 
         }
