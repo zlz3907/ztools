@@ -23,6 +23,7 @@ public class EmacsTest {
         for (int i = 0; i < bs2.length; i++) {
             System.out.println("cs byte: " + bs2[i]);
 	}
+
     }
 
 }
