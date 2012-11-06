@@ -1,0 +1,12 @@
+/bin
+/dist
+.settings
+.classpath
+.project
+/lib
+/build
+/ivy/cache
+**.cache*
+prj.el
+**~
+
