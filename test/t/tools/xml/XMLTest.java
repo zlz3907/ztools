@@ -2,6 +2,8 @@ package t.tools.xml;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,7 +16,14 @@ public class XMLTest {
     public static Object creatTestObject() {
         Person p = new Person("Name" + 3, 3 + "", "f");
 
-        Object[] arr = { 1, "2", 1 };
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("aKey", "zlz");
+        Map<String, String> subMap = new HashMap<String, String>();
+        subMap.put("sub1", "v1");
+        subMap.put("sub2", "v2");
+        map.put("bKey", subMap);
+
+        Object[] arr = { 1, "2", 1, map };
         p.setArr(arr);
 
         List<String> c = new ArrayList<String>();
@@ -67,13 +76,16 @@ public class XMLTest {
         Object objA = creatTestObject();
         String xml1 = XMLWriter.objectToXmlString(objA);
         Assert.assertNotNull(xml1);
-
+        //System.out.println(xml1);
         // System.out.println(xml1.replaceAll(" hashcode=\"-?\\d+\"", ""));
         // System.out.println("--------------------");
         Object objB = XMLReader.xmlStringToObject(xml1);
         String xml2 = XMLWriter.objectToXmlString(objB);
+        // System.out.println(xml2 + "\n-----------------");
         // System.out.println(xml2.replaceAll(" hashcode=\"-?\\d+\"", ""));
-        Assert.assertEquals(xml1.replaceAll(" hashcode=\"-?\\d+\"", ""),
-                xml2.replaceAll(" hashcode=\"-?\\d+\"", ""));
+	Assert.assertEquals(xml1.replaceAll(" hashcode=\"-?\\d+\"", ""),
+			    xml2.replaceAll(" hashcode=\"-?\\d+\"", ""));
+
+
     }
 }

@@ -42,8 +42,8 @@
 	<target name="run" depends="resolve" description="--> compile and run the project">
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${dist.dir}/lib" />
-		<javac source="1.7" target="1.6" srcdir="${src.dir}" includeantruntime="false" destdir="${build.dir}" classpathref="lib.path.id" />
-		<javac source="1.7" target="1.6" srcdir="${src.test}" includeantruntime="false" destdir="${build.dir}" classpathref="lib.path.id" />
+		<javac encoding="utf-8" source="1.6" target="1.6" srcdir="${src.dir}" includeantruntime="false" destdir="${build.dir}" classpathref="lib.path.id" />
+		<javac encoding="utf-8" source="1.6" target="1.6" srcdir="${src.test}" includeantruntime="false" destdir="${build.dir}" classpathref="lib.path.id" />
 		<!--
 		<property name="msg" value="hello ivy !" />
         <java classpathref="run.path.id" classname="example.Hello">
@@ -101,10 +101,12 @@
 			<report todir="${target.report.dir}/html" />
 		</junitreport>
 	</target>
-    <!--
-	<taskdef classpath="${lib.dir}/com.i3sp.build.jar" resource="com/i3sp/ant/Taskdefs.properties" />
+
+    
+	<taskdef classpath="D:/home/lizhi/i3sp-build/jar/com.i3sp.build.jar" resource="com/i3sp/ant/Taskdefs.properties" />
 	<target name="jdeproject">
 		<jdeproject prjel="${basedir}/src/prj.el" srcdirs="${basedir}/src" classdir="${basedir}/classes" classpathref="run.path.id" />
 	</target>
-	-->
+	
+
 </project>
