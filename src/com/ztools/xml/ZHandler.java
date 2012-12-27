@@ -9,7 +9,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -364,8 +363,8 @@ public class ZHandler extends AbsHandler {
                 if (null != isME && isME) {
                     isMapEntry.put(tempItemIndex, false);
                     map.put(currKey.get(tempItemIndex + 1), currValue.get(tempItemIndex + 1));
-                    currKey.put(tempItemIndex, null);
-                    currValue.put(tempItemIndex, null);
+                    currKey.put(tempItemIndex + 1, null);
+                    currValue.put(tempItemIndex + 1, null);
                 } else {
                     map.put(qName, curr);
                 }
@@ -418,6 +417,11 @@ public class ZHandler extends AbsHandler {
             }
             if ("value".equals(qName)) {
                 currValue.put(tempItemIndex, curr);
+            }
+            
+            if ("entry".equalsIgnoreCase(qName)) {
+//              currKey.put(tempItemIndex, null);
+//              currValue.put(tempItemIndex, null);
             }
 
         }

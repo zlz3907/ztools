@@ -1,18 +1,11 @@
 <ivysettings>
-	<settings defaultResolver="co" />
-	<caches default="l-cache" resolutionCacheDir="${basedir}/ivy/cache">
-		<cache name="l-cache" basedir="${basedir}/ivy/cache" />
-	</caches>
-	<resolvers>
-		<chain name="co" returnFirst="false">
-			<ssh name="publicher" host="192.168.7.242" user="kfs"
-				userPassword="kfs123">
-				<artifact pattern="/home/kfs/ivyrepository/[artifact]-[revision].[ext]" />
-			</ssh>
- 			<filesystem name="co-local"> 
-			  <artifact pattern="d:/home/lizhi/ivyrepository/[artifact]-[revision].[ext]" />  			
-			</filesystem>
-			<ibiblio name="ibiblio" />
-		</chain>
-	</resolvers>
+  <settings defaultResolver="co" />
+  <caches default="l-cache" resolutionCacheDir="${basedir}/ivy/cache">
+    <cache name="l-cache" basedir="${basedir}/ivy/cache" />
+  </caches>
+  <resolvers>
+    <chain name="co" returnFirst="false">
+      <ibiblio name="public" />
+    </chain>
+  </resolvers>
 </ivysettings>

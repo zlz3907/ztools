@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="style.xsl"?>
+<XMLBean class="java.util.HashMap">
+  <HashMap hashcode="724145794" class="java.util.HashMap">
+    <entry isMapEntry="true">
+      <key class="java.lang.String"><![CDATA[integer]]></key>
+      <value class="java.lang.Integer">129</value>
+    </entry>
+    <entry isMapEntry="true">
+      <key class="java.lang.String"><![CDATA[one]]></key>
+      <value class="java.lang.Integer">1</value>
+    </entry>
+    <entry isMapEntry="true">
+      <key class="java.lang.String"><![CDATA[string]]></key>
+      <value class="java.lang.String"><![CDATA[string]]></value>
+    </entry>
+    <entry isMapEntry="true">
+      <key class="java.lang.String"><![CDATA[subMap]]></key>
+      <value hashcode="2091491488" class="java.util.HashMap">
+        <entry isMapEntry="true">
+          <key class="java.lang.String"><![CDATA[keytwo]]></key>
+        </entry>
+        <entry isMapEntry="true">
+          <value class="java.lang.String"><![CDATA[three]]></value>
+        </entry>
+        <entry isMapEntry="true">
+          <key class="java.lang.String"><![CDATA[keyone]]></key>
+          <value class="java.lang.String"><![CDATA[hello]]></value>
+        </entry>
+      </value>
+    </entry>
+  </HashMap>
+</XMLBean>
