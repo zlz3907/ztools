@@ -1,112 +1,126 @@
-<project name="ztools" default="run" xmlns:ivy="antlib:org.apache.ivy.ant">
-	<!-- some variables used -->
-	<property name="lib.dir" value="lib" />
-	<property name="build.dir" value="bin" />
-	<property name="src.dir" value="src" />
-	<property name="src.test" value="test" />
-	<property name="dist.dir" value="dist" />
-	<property name="target.report.dir" value="${dist.dir}/report" />
-	<property name="version" value="1.09" />
-	<property name="project.name" value="ztools" />
-	<!-- ivy settings -->
-	<property name="ivy.cache.dir" value="${basedir}/ivy/cache" />
-	<property name="ivy.settings.dir" value="ivy/settings" />
-	<ivy:settings file="${ivy.settings.dir}/ivysettings.xml" />
+<project name="ztools" default="run" 
+         xmlns:ivy="antlib:org.apache.ivy.ant"
+         xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
+  <!-- some variables used -->
+  <property environment="env" />
+  <property name="lib.dir" value="lib" />
+  <property name="build.dir" value="bin" />
+  <property name="src.dir" value="src" />
+  <property name="src.test" value="test" />
+  <property name="dist.dir" value="dist" />
+  <property name="target.report.dir" value="${dist.dir}/report" />
+  <property name="version" value="1.09" />
+  <property name="project.name" value="ztools" />
+  <!-- ivy settings -->
+  <property name="ivy.cache.dir" value="${basedir}/ivy/cache" />
+  <property name="ivy.settings.dir" value="ivy/settings" />
+  <ivy:settings file="${ivy.settings.dir}/ivysettings.xml" />
 
-	<!-- paths used for compilation and run  -->
-	<path id="lib.path.id">
-		<fileset dir="${lib.dir}" />
-	</path>
-	<path id="run.path.id">
-		<path refid="lib.path.id" />
-		<path location="${build.dir}" />
-	</path>
+  <!-- paths used for compilation and run  -->
+  <path id="lib.path.id">
+    <fileset dir="${lib.dir}" />
+  </path>
+  <path id="run.path.id">
+    <path refid="lib.path.id" />
+    <path location="${build.dir}" />
+  </path>
 
-	<!-- ================================= 
-          target: resolve              
-         ================================= -->
-	<target name="resolve" description="--> retreive dependencies with ivy">
-		<ivy:retrieve />
-	</target>
+  <!-- ================================= 
+       target: resolve              
+       ================================= -->
+  <target name="resolve" description="--> retreive dependencies with ivy">
+    <ivy:retrieve />
+  </target>
 
-	<!-- ================================= 
-          target: report              
-         ================================= -->
-	<target name="report" depends="resolve" description="--> generates a report of dependencies">
-		<ivy:report todir="${build.dir}" />
-	</target>
+  <!-- ================================= 
+       target: report              
+       ================================= -->
+  <target name="report" depends="resolve" description="--> generates a report of dependencies">
+    <ivy:report todir="${build.dir}" />
+  </target>
 
-	<!-- ================================= 
-          target: run
-         ================================= -->
-	<target name="run" depends="resolve" description="--> compile and run the project">
-		<mkdir dir="${build.dir}" />
-		<mkdir dir="${dist.dir}/lib" />
-		<javac encoding="utf-8" source="1.6" target="1.6" srcdir="${src.dir}" includeantruntime="false" destdir="${build.dir}" classpathref="lib.path.id" />
-		<javac encoding="utf-8" source="1.6" target="1.6" srcdir="${src.test}" includeantruntime="false" destdir="${build.dir}" classpathref="lib.path.id" />
-		<!--
-		<property name="msg" value="hello ivy !" />
+  <target name="checkstyle" description="Generates a report of code convention violations.">
+    <cs:checkstyle config="d:/home/lizhi/checkstyle-5.6/sun_checks.xml">
+      <fileset dir="${src.dir}" includes="**/*.java" excludes="org/**" />
+
+      <!-- Location of cache-file. Something that is project specific -->
+      <!--property key="checkstyle.cache.file" file="target/cachefile"/-->
+      <!--formatter type="plain"/>
+      <formatter type="xml" toFile="${build.dir}/checkstyle_errors.xml"/-->
+    </cs:checkstyle>
+  </target>
+
+  <!-- ================================= 
+       target: run
+       ================================= -->
+  <target name="run" depends="resolve" description="--> compile and run the project">
+    <mkdir dir="${build.dir}" />
+    <mkdir dir="${dist.dir}/lib" />
+    <javac encoding="utf-8" source="1.6" target="1.6" srcdir="${src.dir}" includeantruntime="false" destdir="${build.dir}" classpathref="lib.path.id" />
+    <javac encoding="utf-8" source="1.6" target="1.6" srcdir="${src.test}" includeantruntime="false" destdir="${build.dir}" classpathref="lib.path.id" />
+    <!--
+	<property name="msg" value="hello ivy !" />
         <java classpathref="run.path.id" classname="example.Hello">
-        	<arg value="-message"/>
-        	<arg value="${msg}"/>
+        <arg value="-message"/>
+        <arg value="${msg}"/>
     	</java>
-    	-->
-	</target>
+    -->
+  </target>
 
-	<!-- ================================= 
-          target: clean              
-         ================================= -->
-	<target name="clean" description="--> clean the project">
-		<delete dir="${build.dir}" />
-		<delete dir="${dist.dir}}" />
-	</target>
+  <!-- ================================= 
+       target: clean              
+       ================================= -->
+  <target name="clean" description="--> clean the project">
+    <delete dir="${build.dir}" />
+    <delete dir="${dist.dir}}" />
+  </target>
 
-	<!-- ================================= 
-          target: clean-cache              
-         ================================= -->
-	<target name="clean-cache" description="--> clean the ivy cache">
-		<ivy:cleancache />
-	</target>
+  <!-- ================================= 
+       target: clean-cache              
+       ================================= -->
+  <target name="clean-cache" description="--> clean the ivy cache">
+    <ivy:cleancache />
+  </target>
 
 
-	<target name="dist" depends="run" description="generate the distribution">
-		<!-- Create the distribution directory -->
-		<mkdir dir="${dist.dir}/lib" />
+  <target name="dist" depends="run" description="generate the distribution">
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist.dir}/lib" />
 
-		<!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-		<jar jarfile="${dist.dir}/lib/${project.name}-${version}.jar" basedir="${build.dir}" />
-	</target>
+    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+    <jar jarfile="${dist.dir}/lib/${project.name}-${version}.jar" basedir="${build.dir}" />
+  </target>
 
-	<!-- ================================= 
-	          target: test              
-	         ================================= -->
-	<target name="test" depends="run">
-		<mkdir dir="${target.report.dir}" />
-		<junit printsummary="yes" haltonerror="yes" haltonfailure="yes" fork="yes">
-			<formatter type="plain" usefile="false" />
-			<formatter type="xml" />
-			<test name="t.tools.xml.XMLTest" todir="${target.report.dir}" />
-			<classpath>
-				<path refid="run.path.id" />
-			</classpath>
-		</junit>
-	</target>
+  <!-- ================================= 
+       target: test              
+       ================================= -->
+  <target name="test" depends="run">
+    <mkdir dir="${target.report.dir}" />
+    <junit printsummary="yes" haltonerror="yes" haltonfailure="yes" fork="yes">
+      <formatter type="plain" usefile="false" />
+      <formatter type="xml" />
+      <test name="t.tools.xml.XMLTest" todir="${target.report.dir}" />
+      <classpath>
+	<path refid="run.path.id" />
+      </classpath>
+    </junit>
+  </target>
 
-	<target name="test-report" depends="test">
-		<mkdir dir="${target.report.dir}/html" />
-		<junitreport todir="${target.report.dir}">
-			<fileset dir="${target.report.dir}">
-				<include name="TEST-*.xml" />
-			</fileset>
-			<report todir="${target.report.dir}/html" />
-		</junitreport>
-	</target>
+  <target name="test-report" depends="test">
+    <mkdir dir="${target.report.dir}/html" />
+    <junitreport todir="${target.report.dir}">
+      <fileset dir="${target.report.dir}">
+	<include name="TEST-*.xml" />
+      </fileset>
+      <report todir="${target.report.dir}/html" />
+    </junitreport>
+  </target>
 
-    
-	<taskdef classpath="D:/home/lizhi/i3sp-build/jar/com.i3sp.build.jar" resource="com/i3sp/ant/Taskdefs.properties" />
-	<target name="jdeproject">
-		<jdeproject prjel="${basedir}/src/prj.el" srcdirs="${basedir}/src" classdir="${basedir}/classes" classpathref="run.path.id" />
-	</target>
-	
+  
+  <taskdef classpath="D:/home/lizhi/i3sp-build/jar/com.i3sp.build.jar" resource="com/i3sp/ant/Taskdefs.properties" />
+  <target name="jdeproject">
+    <jdeproject prjel="${basedir}/src/prj.el" srcdirs="${basedir}/src" classdir="${basedir}/classes" classpathref="run.path.id" />
+  </target>
+  
 
 </project>

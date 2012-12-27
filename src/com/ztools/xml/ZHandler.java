@@ -432,7 +432,7 @@ public class ZHandler extends AbsHandler {
         return bean;
     }
 
-    public void setBean(Object bean) {
+    public void setBean(final Object bean) {
         this.bean = bean;
     }
 
