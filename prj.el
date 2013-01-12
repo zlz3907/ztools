@@ -6,33 +6,33 @@
  ;; classpath
  '(jde-global-classpath 
    (quote 
-    ("e:/home/lizhi/workspace/2012/ztools/lib/*"
-     "e:/home/lizhi/workspace/2012/ztools/bin/"
+    ("d:/home/lizhi/workspace/2012/ztools/lib/*"
+     "d:/home/lizhi/workspace/2012/ztools/bin/"
      "$ANT_HOME/lib/*")
     ))
- ;; 在编译时用到
+ ;; 鍦ㄧ紪璇戞椂鐢ㄥ埌
  '(jde-compile-option-sourcepath 
-   (quote ("e:/home/lizhi/workspace/2012/ztools/src" 
-	   "e:/home/lizhi/workspace/2012/ztools/test")))
+   (quote ("d:/home/lizhi/workspace/2012/ztools/src" 
+	   "d:/home/lizhi/workspace/2012/ztools/test")))
  '(jde-compile-option-classpath 
-   (quote ("e:/home/lizhi/workspace/2012/ztools/lib/*" 
-	   "e:/home/lizhi/workspace/2012/ztools/bin/")))
+   (quote ("d:/home/lizhi/workspace/2012/ztools/lib/*" 
+	   "d:/home/lizhi/workspace/2012/ztools/bin/")))
  ;; Junit
- '(jde-junit-working-directory "e:/home/lizhi/workspace/2012/ztools/")
- '(jde-run-working-directory "e:/home/lizhi/workspace/2012/ztools/")
+ '(jde-junit-working-directory "d:/home/lizhi/workspace/2012/ztools/")
+ '(jde-run-working-directory "d:/home/lizhi/workspace/2012/ztools/")
  '(jde-sourcepath 
-   (quote ("e:/home/lizhi/workspace/2012/ztools/src/" 
-	   "e:/home/lizhi/workspace/2012/ztools/test")))
- ;;'(jde-run-application-class "e:/home/lizhi/workspace/2012/ztools/bin")
- ;;'(jde-run-working-directory "e:/home/lizhi/workspace/2012/ztools")
- '(jde-compile-option-directory "e:/home/lizhi/workspace/2012/ztools/bin/")
+   (quote ("d:/home/lizhi/workspace/2012/ztools/src/" 
+	   "d:/home/lizhi/workspace/2012/ztools/test")))
+ ;;'(jde-run-application-class "d:/home/lizhi/workspace/2012/ztools/bin")
+ ;;'(jde-run-working-directory "d:/home/lizhi/workspace/2012/ztools")
+ '(jde-compile-option-directory "d:/home/lizhi/workspace/2012/ztools/bin/")
  '(jde-compile-option-encoding "utf-8")
  '(jde-build-function (quote (jde-ant-build)))
  '(jde-ant-enable-find t)
  '(jde-ant-read-target t)
  '(jde-ant-home "$ANT_HOME")
  '(jde-ant-invocation-method (quote ("Ant Server")))
- ;;'(jde-ant-user-jar-files (quote ("")) ; 这里对应eclipse中add build里的jars
+ ;;'(jde-ant-user-jar-files (quote ("")) ; 杩欓噷瀵瑰簲eclipse涓璦dd build閲岀殑jars
  ;;'(jde-vm-path "d:/Java/jdk1.6/bin/java")
- ;;'(jde-run-application-class "e:/home/lizhi/workspace/2012/ztools/bin")
+ ;;'(jde-run-application-class "d:/home/lizhi/workspace/2012/ztools/bin")
  )
