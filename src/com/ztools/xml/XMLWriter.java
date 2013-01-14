@@ -349,10 +349,19 @@ public class XMLWriter implements Serializable {
       sbd.append("\" class=\"").append(obj.getClass().getName());
       sbd.append("\" length=\"").append(Array.getLength(obj));
       sbd.append("\">");
-      Object[] coll = (Object[]) obj;
-      for (int i = 0; i < coll.length; i++) {
-        objectToXmlString(coll[i], sbd, set, coll[i].getClass().getSimpleName());
+
+      // System.out.println("class: " + obj.getClass().getName());
+      int length = Array.getLength(obj);
+      for (int i = 0; i < length; i++) {
+        Object element = Array.get(obj, i);
+        objectToXmlString(element, sbd, set, element.getClass().getSimpleName());
       }
+
+      // Object[] coll = (Object[]) obj;
+      // for (int i = 0; i < coll.length; i++) {
+      // objectToXmlString(coll[i], sbd, set,
+      // coll[i].getClass().getSimpleName());
+      // }
       sbd.append("</").append(name).append(">");
       return;
     } else if (obj instanceof Collection<?>) { // collection

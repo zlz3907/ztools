@@ -1,5 +1,6 @@
-<project name="ztools" default="run" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="ztools" default="run" xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
 	<!-- some variables used -->
+	<property environment="env" />
 	<property name="lib.dir" value="lib" />
 	<property name="build.dir" value="bin" />
 	<property name="src.dir" value="src" />
@@ -23,17 +24,28 @@
 	</path>
 
 	<!-- ================================= 
-          target: resolve              
-         ================================= -->
+       target: resolve              
+       ================================= -->
 	<target name="resolve" description="--> retreive dependencies with ivy">
 		<ivy:retrieve />
 	</target>
 
 	<!-- ================================= 
-          target: report              
-         ================================= -->
+       target: report              
+       ================================= -->
 	<target name="report" depends="resolve" description="--> generates a report of dependencies">
 		<ivy:report todir="${build.dir}" />
+	</target>
+
+	<target name="checkstyle" description="Generates a report of code convention violations.">
+		<cs:checkstyle config="d:/home/lizhi/checkstyle-5.6/sun_checks.xml">
+			<fileset dir="${src.dir}" includes="**/*.java" excludes="org/**" />
+
+			<!-- Location of cache-file. Something that is project specific -->
+			<!--property key="checkstyle.cache.file" file="target/cachefile"/-->
+			<!--formatter type="plain"/>
+      <formatter type="xml" toFile="${build.dir}/checkstyle_errors.xml"/-->
+		</cs:checkstyle>
 	</target>
 
 	<!-- ================================= 
@@ -102,16 +114,16 @@
 		</junitreport>
 	</target>
 
-    
+
 	<taskdef classpath="D:/home/lizhi/i3sp-build/jar/com.i3sp.build.jar" resource="com/i3sp/ant/Taskdefs.properties" />
 	<target name="jdeproject">
 		<jdeproject prjel="${basedir}/src/prj.el" srcdirs="${basedir}/src" classdir="${basedir}/classes" classpathref="run.path.id" />
 	</target>
-	
+
 	<target name="upload" description="upload jar to ivy server">
-	    <echo message="upload ${project.name}-${version}.jar ..." />
-	    <scp file="${dist.dir}/lib/${project.name}-${version}.jar" todir="kfs:kfs123@192.168.7.242:/home/kfs/ivyrepository/${project.name}-${version}.jar" />
-	    <echo message="upload end." />
-	  </target>
+		<echo message="upload ${project.name}-${version}.jar ..." />
+		<scp file="${dist.dir}/lib/${project.name}-${version}.jar" todir="kfs:kfs123@192.168.7.242:/home/kfs/ivyrepository/${project.name}-${version}.jar" />
+		<echo message="upload end." />
+	</target>
 
 </project>

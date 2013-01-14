@@ -1,5 +1,7 @@
 package t.tools.xml;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,7 @@ import org.junit.Test;
 
 import com.ztools.xml.XMLReader;
 import com.ztools.xml.XMLWriter;
+import com.ztools.xml.ZHandler;
 
 public final class XMLTest {
 
@@ -90,9 +93,9 @@ public final class XMLTest {
 
   @Test
   public void testNullValueInMap() {
-    Map<String, String> map = new HashMap<String, String>();
+    Map<String, Object> map = new HashMap<String, Object>();
     map.put("keyone", "hello");
-    map.put("keytwo", null);
+    map.put("keytwo", new byte[]{1,2,3});
     map.put(null, "three");
 
     String xmlStr = XMLWriter.objectToXmlString(map);
@@ -101,7 +104,15 @@ public final class XMLTest {
     String xmlStr2 = XMLWriter.objectToXmlString(obj);
     System.out.println();
     System.out.println(xmlStr2);
-    Assert.assertEquals(obj, map);
+    if (obj instanceof Map<?, ?>) {
+      Map<?, ?> m = (Map<?, ?>) obj;
+      for (Object key : map.keySet()) {
+        assert(m.containsKey(key));
+        assert(m.containsValue(map.get(key)));
+        System.out.println(key + ".......");
+      }
+//      Assert.assertEquals(m., map);
+    }
   }
 
   @Test
@@ -125,5 +136,18 @@ public final class XMLTest {
     System.out.println();
     System.out.println(xmlStr2);
     Assert.assertEquals(obj, testObj);
+  }
+  
+  @Test
+  public void testReadXmlFile() {
+    try {
+      Object obj = 
+      XMLReader.xmlStreamToObject(new FileInputStream("f:/10010000.xml"), new ZHandler());
+      System.out.println(obj);
+    } catch (FileNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
   }
 }
